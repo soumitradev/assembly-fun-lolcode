@@ -8,5 +8,5 @@ int strlen(char *str);
 void append(char *str, char new);
 void backspace(char *str);
 int strcmp(char *s1, char *s2);
-
+char* substr(const char *src, int m, int n);
 #endif

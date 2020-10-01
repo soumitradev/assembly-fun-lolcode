@@ -6,16 +6,16 @@ CC = /usr/local/i386elfgcc/bin/i386-elf-gcc
 LD = /usr/local/i386elfgcc/bin/i386-elf-ld
 GDB = /usr/local/i386elfgcc/bin/i386-elf-gdb
 
-CFLAGS = -g
+CFLAGS = -g -std=gnu11
 
 os-image.bin: boot/boot_sect.bin kernel.bin
 	cat $^ > $@
 
 kernel.bin: boot/kernel_entry.o ${OBJ}
-	${LD} -o $@ -Ttext 0x1000 $^ --oformat binary
+	${LD} -o $@ -T linker.ld $^ --oformat binary
 
 kernel.elf: boot/kernel_entry.o ${OBJ}
-	${LD} -o $@ -Ttext 0x1000 $^
+	${LD} -o $@ -T linker.ld $^
 
 run: os-image.bin
 	qemu-system-i386 -fda $^

@@ -19,6 +19,8 @@ void print(char *str, char attr);
 void set_cursor(int col, int row);
 void set_cursor_offset(int offset);
 void print_at(char *str, int col, int row, char attr);
+void print_at_offset(char *str, int offset, char attr);
+void print_at_offset_l(char *str, long offset, char attr);
 void backspace_handler();
 
 int get_cursor_offset();
@@ -26,5 +28,6 @@ int get_offset_col(int offset);
 int get_offset_row(int offset);
 int get_offset(int col, int row);
 int print_char(char chr, int col, int row, char attr);
+void print_char_at(char chr, int col, int row, char attr);
 
 #endif

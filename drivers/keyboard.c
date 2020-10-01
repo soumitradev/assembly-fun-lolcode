@@ -3,6 +3,7 @@
 #include "../cpu/isr.h"
 #include "../cpu/ports.h"
 #include "../lib/strlib.h"
+#include "../lib/lollib.h"
 #include "./screen.h"
 
 static char key_buffer[256];
@@ -33,7 +34,7 @@ static void keyboard_callback(registers_t regs) {
   if (scancode == BACKSPACE) {
     // Keep prompt from getting removed
     if (get_offset_col(get_cursor_offset()) < 2) return;
-    
+
     backspace(key_buffer);
     backspace_handler();
   } else if (scancode == ENTER) {
@@ -51,4 +52,6 @@ static void keyboard_callback(registers_t regs) {
 }
 
 // Map handler function to keyboard interrupts
-void init_keyboard() { register_interrupt_handler(IRQ1, keyboard_callback); }
+void init_keyboard() {
+  register_interrupt_handler(IRQ1, keyboard_callback);
+}

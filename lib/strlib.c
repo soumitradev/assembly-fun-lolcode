@@ -1,5 +1,7 @@
 #include "./strlib.h"
 
+#include "./lollib.h"
+
 // K&R implementation of itoa, fails on base > 10.
 void int_to_char(int n, char *str, int base) {
   int i, sign;
@@ -52,4 +54,25 @@ int strcmp(char *s1, char *s2) {
     if (s1[i] == '\0') return 0;
   }
   return s1[i] - s2[i];
+}
+
+char *substr(const char *src, int m, int n) {
+  // get length of the destination string
+  int len = n - m;
+
+  // allocate (len + 1) chars for destination (+1 for extra null character)
+  char *dest = (char *)malloc(sizeof(char) * (len + 1));
+
+  // extracts characters between m'th and n'th index from source string
+  // and copy them into the destination string
+  for (int i = m; i < n && (strcmp(*(src + i), '\0') != 0); i++) {
+    *dest = *(src + i);
+    dest++;
+  }
+
+  // null-terminate the destination string
+  *dest = '\0';
+
+  // return the destination string
+  return dest - len;
 }

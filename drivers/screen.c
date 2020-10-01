@@ -56,6 +56,12 @@ int print_char(char chr, int col, int row, char attr) {
   return offset;
 }
 
+void print_char_at(char chr, int col, int row, char attr) {
+  int off = get_cursor_offset();
+  print_char(chr, col, row, attr);
+  set_cursor_offset(off);
+}
+
 void print_at(char *str, int col, int row, char attr) {
   int offset;
 
@@ -77,16 +83,33 @@ void print_at(char *str, int col, int row, char attr) {
   }
 }
 
+void print_at_offset_l(char *str, long offset, char attr) {
+  // Use print_char to print string
+  print_at_offset(str, (int)offset, attr);
+}
+
+void print_at_offset(char *str, int offset, char attr) {
+  // Use print_char to print string
+  int row = get_offset_row(offset);
+  int col = get_offset_col(offset);
+  int i = 0;
+  while (str[i]) {
+    offset = print_char(str[i++], col, row, attr);
+    row = get_offset_row(offset);
+    col = get_offset_col(offset);
+  }
+}
+
 void print(char *str, char attr) {
   // Printing by default becomes so much easier
   print_at(str, -1, -1, attr);
 }
 
 void backspace_handler() {
-  print_char(' ', get_offset_col(get_cursor_offset()) - 1, get_offset_row(get_cursor_offset()), 0);
+  print_char(' ', get_offset_col(get_cursor_offset()) - 1,
+             get_offset_row(get_cursor_offset()), 0);
   set_cursor_offset(get_cursor_offset() - 2);
 }
-
 
 // Mass screen functions
 
